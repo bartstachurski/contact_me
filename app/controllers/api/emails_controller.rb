@@ -1,6 +1,9 @@
 class Api::EmailsController < ApplicationController
   def create
-    email = Email.create(email_params)
+    @email = Email.new(email_params)
+    if @email.save
+      EmailMailer.with(email: @email).email.deliver_now
+    end
   end
 
   private
